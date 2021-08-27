@@ -194,4 +194,59 @@ describe("range", () => {
       expect(actual2).toEqual(expected);
     });
   });
+
+  describe(".toString()", () => {
+    it("is a function", () => {
+      expect(typeof range(0, 10).toString).toBe("function");
+    });
+
+    it("returns a string representation of a range", () => {
+      const start = 0;
+      const stop = 10;
+
+      const expected = "0..10";
+      const actual = range(start, stop).toString();
+
+      expect(actual).toEqual(expected);
+    });
+
+    it("returns a string representation of a range (step != 1)", () => {
+      const start = 0;
+      const stop = 10;
+      const step = 2;
+
+      const expected = "0..10{2}";
+      const actual = range(start, stop, step).toString();
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe(".toArray()", () => {
+    it("is a function", () => {
+      expect(typeof range(0, 10).toArray).toBe("function");
+    });
+
+    it("returns an array from a range", () => {
+      const start = 0;
+      const stop = 9;
+      const step = 2;
+
+      const expected = [0, 2, 4, 6, 8];
+      const actual = range(start, stop, step).toArray();
+
+      expect(actual).toEqual(expected);
+    });
+
+    it("returns an array from a range ([...range()])", () => {
+      const start = 0;
+      const stop = 5;
+      const step = 1;
+
+      const expected = [0, 1, 2, 3, 4];
+      const actual = [...range(start, stop, step)];
+
+      expect(actual).toEqual(expected);
+    });
+  });
 });

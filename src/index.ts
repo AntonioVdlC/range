@@ -1,6 +1,6 @@
 class Range {
   // TODO: add forEach, map, filter ... ?
-  // TODO: add toArray, toString, ... ?
+  // TODO: add basic operations such as equal, includes, add, ... ?
   // TODO: allow for inclusive ranges (similar to Rust)?
 
   _start: number;
@@ -39,7 +39,7 @@ class Range {
    * Return the first value of a range
    * @returns First value of a range
    */
-  first() {
+  first(): number {
     return this._start;
   }
 
@@ -47,7 +47,7 @@ class Range {
    * Return the last value of a range
    * @returns Last value of a range
    */
-  last() {
+  last(): number {
     return this._stop;
   }
 
@@ -55,23 +55,54 @@ class Range {
    * Return the value of the step for the range
    * @returns Value of the step
    */
-  step() {
+  step(): number {
     return this._step;
+  }
+
+  /**
+   * Converts the range into a string
+   * @returns String representatin of the range
+   */
+  toString(): string {
+    // TODO: change representation if support for inclusive ranges
+    if (this.step() === 1) {
+      return `${this.first()}..${this.last()}`;
+    }
+    return `${this.first()}..${this.last()}{${this.step()}}`;
+  }
+
+  /**
+   * Converts the range into an array
+   * @returns Array representatino of the range
+   */
+  toArray(): number[] {
+    const arr: number[] = [];
+
+    let next = this.next();
+    while (!next.done) {
+      if (next.value !== undefined) {
+        arr.push(next.value);
+      }
+
+      next = this.next();
+    }
+
+    return arr;
   }
 
   /**
    * Implement iterator protocol
    */
   next() {
-    if (this.i < this._stop) {
+    if (this.i < this.last()) {
       const value = this.i;
-      this.i += this._step;
+      this.i += this.step();
       return { value, done: false };
     }
 
     // We reset the value once we have iterated over all values so that
     // ranges are reusable.
-    this.i = this._start;
+    this.i = this.first();
 
     return { value: undefined, done: true };
   }
