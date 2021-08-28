@@ -42,16 +42,16 @@ class Range {
   }
 
   /**
-   * Return the first value of a range
-   * @returns First value of a range
+   * Return the start value of a range
+   * @returns Start value of a range
    */
   get start(): number {
     return this._start;
   }
 
   /**
-   * Return the last value of a range
-   * @returns Last value of a range
+   * Return the stop value of a range
+   * @returns Stop value of a range
    */
   get stop(): number {
     return this._stop;
@@ -71,6 +71,26 @@ class Range {
    */
   get isInclusive(): boolean {
     return this._inclusive;
+  }
+
+  /**
+   * Return the first value of a range
+   * @returns First value of a range
+   */
+  get first(): number {
+    return this._start;
+  }
+
+  /**
+   * Return the last value of a range
+   * @returns Last value of a range
+   */
+  get last(): number {
+    if (this.isInclusive) {
+      return this._stop;
+    }
+
+    return this._stop - 1;
   }
 
   /**

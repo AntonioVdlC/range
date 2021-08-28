@@ -92,6 +92,48 @@ describe("range", () => {
     });
   });
 
+  describe(".first", () => {
+    it("is a getter", () => {
+      expect(typeof range(0, 10).first).toBe("number");
+    });
+
+    it("returns the first value of a range", () => {
+      const start = 0;
+      const stop = 10;
+
+      const expected = start;
+      const actual = range(start, stop).first;
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe(".last", () => {
+    it("is a getter", () => {
+      expect(typeof range(0, 10).last).toBe("number");
+    });
+
+    it("returns the last value of a range", () => {
+      const start = 0;
+      const stop = 10;
+
+      const expected = stop - 1;
+      const actual = range(start, stop).last;
+
+      expect(actual).toEqual(expected);
+    });
+
+    it("returns the last value of a range (inclusive)", () => {
+      const start = 0;
+      const stop = 10;
+
+      const expected = stop;
+      const actual = range(start, stop, 1, true).last;
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
   describe(".next()", () => {
     it("is a function", () => {
       expect(typeof range(0, 10).next).toBe("function");

@@ -72,6 +72,21 @@ Returns `true` if the range is inclusive of its last value:
 range(0, 10).isInclusive; // false (by default)
 ```
 
+#### .first
+
+Returns the first value of a range:
+```js
+range(0, 10).first; // 0
+```
+
+#### .last
+
+Returns the last value of a range:
+```js
+range(0, 10).last; // 9
+range(0, 10, 1, true).last; // 10
+```
+
 ### Methods
 
 You can use the following methods on ranges:
