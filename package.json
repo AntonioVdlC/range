@@ -1,7 +1,7 @@
 {
-  "name": "node-library-starter",
+  "name": "@antoniovdlc/range",
   "version": "0.0.0",
-  "description": "",
+  "description": "Implement ranges in JavaScript",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
@@ -24,7 +24,9 @@
     "postversion": "git push && git push --tags"
   },
   "keywords": [
-    ""
+    "range",
+    "loop",
+    "iteration"
   ],
   "author": "Antonio Villagra De La Cruz",
   "repository": {
