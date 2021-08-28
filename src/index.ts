@@ -1,6 +1,5 @@
 class Range {
   // TODO: add forEach, map, filter ... ?
-  // TODO: add basic operations such as equal, includes, add, ... ?
   // TODO: allow for inclusive ranges (similar to Rust)?
   // TODO: add .first(), .last(), .middle(), ... ?
 
@@ -89,6 +88,50 @@ class Range {
     }
 
     return arr;
+  }
+
+  /**
+   * Checks if 2 ranges are equal (same start, stop and step)
+   * @param range Range to compare to
+   * @returns `true` if ranges are equal, `false` otherwise
+   */
+  equal(range: Range): boolean {
+    // TODO: check inclusive if inclusive ranges are implemented
+    return (
+      this.start === range.start &&
+      this.stop === range.stop &&
+      this.step === range.step
+    );
+  }
+
+  /**
+   * Checks if a range includes another
+   * @param range Range to compare to
+   * @returns `true` if given range is included in current range,
+   * `false` otherwise (regardless of step)
+   */
+  includes(range: Range): boolean {
+    // TODO: check inclusive if inclusive ranges are implemented
+    return this.start <= range.start && this.stop >= range.stop;
+  }
+
+  /**
+   * Adds 2 ranges together
+   * ex: range(0, 5).add(range(1, 10)) = range(0, 10);
+   * @param range Range to be added
+   * @returns New range
+   */
+  add(range: Range): Range {
+    if (this.step !== range.step) {
+      throw new Error("Cannot add ranges of different steps.");
+    }
+
+    // TODO: check for inclusive if implemented
+    return new Range(
+      Math.min(this.start, range.start),
+      Math.max(this.stop, range.stop),
+      this.step
+    );
   }
 
   /**

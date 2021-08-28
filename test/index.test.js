@@ -249,4 +249,68 @@ describe("range", () => {
       expect(actual).toEqual(expected);
     });
   });
+
+  describe(".equal()", () => {
+    it("is a function", () => {
+      expect(typeof range(0, 10).equal).toBe("function");
+    });
+
+    it("returns `true` if given range is equal", () => {
+      const expected = true;
+      const actual = range(0, 10, 2).equal(range(0, 10, 2));
+
+      expect(actual).toEqual(expected);
+    });
+
+    it("returns `false` if given range is not equal", () => {
+      const expected = false;
+      const actual = range(0, 10, 2).equal(range(0, 10));
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe(".includes()", () => {
+    it("is a function", () => {
+      expect(typeof range(0, 10).includes).toBe("function");
+    });
+
+    it("returns `true` if given range is included", () => {
+      const expected = true;
+      const actual = range(0, 10).includes(range(0, 5));
+
+      expect(actual).toEqual(expected);
+    });
+
+    it("returns `true` if given range is equal", () => {
+      const expected = true;
+      const actual = range(0, 10).includes(range(0, 10));
+
+      expect(actual).toEqual(expected);
+    });
+
+    it("returns `false` if given range is not included", () => {
+      const expected = false;
+      const actual = range(0, 5).includes(range(0, 10));
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe(".add()", () => {
+    it("is a function", () => {
+      expect(typeof range(0, 10).add).toBe("function");
+    });
+
+    it("throws if trying to add ranges with different steps", () => {
+      expect(() => range(0, 5, 2).add(range(1, 10))).toThrow();
+    });
+
+    it("adds ranges correctly", () => {
+      const expected = range(0, 10);
+      const actual = range(0, 5).add(range(1, 10));
+
+      expect(actual.equal(expected)).toBeTrue();
+    });
+  });
 });

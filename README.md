@@ -87,6 +87,29 @@ range(0, 10, 2).toArray(); // [0, 2, 4, 6, 8]
 > You can also use the follow syntax as `ranges` are iterable:
 > `[...range(0, 10)]`
 
+#### .equal(range)
+
+Checks if 2 ranges are equal (same start, stop, and step):
+```js
+range(0, 10).equal(range(0, 10)); // true
+range(0, 10, 2).equal(range(0, 10)); // false
+```
+
+#### .includes(range)
+
+Checks if one range includes another (irrespective of step values):
+```js
+range(0, 10).includes(range(1, 5)); // true
+range(0, 10).includes(range(1, 11)); // false
+```
+
+#### .add(range)
+
+Adds ranges together (only if step values are equal):
+```js
+range(0, 5).add(range(1, 10)); // range(0, 10)
+```
+
 ### Iteration protocols
 
 Ranges implement both the iterable and the iterator protocols. This allows iteration over ranges as follow:
