@@ -2,6 +2,7 @@ class Range {
   // TODO: add forEach, map, filter ... ?
   // TODO: add basic operations such as equal, includes, add, ... ?
   // TODO: allow for inclusive ranges (similar to Rust)?
+  // TODO: add .first(), .last(), .middle(), ... ?
 
   _start: number;
   _stop: number;
@@ -39,7 +40,7 @@ class Range {
    * Return the first value of a range
    * @returns First value of a range
    */
-  first(): number {
+  get start(): number {
     return this._start;
   }
 
@@ -47,7 +48,7 @@ class Range {
    * Return the last value of a range
    * @returns Last value of a range
    */
-  last(): number {
+  get stop(): number {
     return this._stop;
   }
 
@@ -55,7 +56,7 @@ class Range {
    * Return the value of the step for the range
    * @returns Value of the step
    */
-  step(): number {
+  get step(): number {
     return this._step;
   }
 
@@ -65,10 +66,10 @@ class Range {
    */
   toString(): string {
     // TODO: change representation if support for inclusive ranges
-    if (this.step() === 1) {
-      return `${this.first()}..${this.last()}`;
+    if (this.step === 1) {
+      return `${this.start}..${this.stop}`;
     }
-    return `${this.first()}..${this.last()}{${this.step()}}`;
+    return `${this.start}..${this.stop}{${this.step}}`;
   }
 
   /**
@@ -94,15 +95,15 @@ class Range {
    * Implement iterator protocol
    */
   next() {
-    if (this.i < this.last()) {
+    if (this.i < this.stop) {
       const value = this.i;
-      this.i += this.step();
+      this.i += this.step;
       return { value, done: false };
     }
 
     // We reset the value once we have iterated over all values so that
     // ranges are reusable.
-    this.i = this.first();
+    this.i = this.start;
 
     return { value: undefined, done: true };
   }

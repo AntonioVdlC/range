@@ -25,9 +25,9 @@ describe("range", () => {
     expect(() => range(0, 3, "hello")).toThrow();
   });
 
-  describe(".first()", () => {
-    it("is a function", () => {
-      expect(typeof range(0, 10).first).toBe("function");
+  describe(".start", () => {
+    it("is a getter", () => {
+      expect(typeof range(0, 10).start).toBe("number");
     });
 
     it("returns the start value of a range", () => {
@@ -35,15 +35,15 @@ describe("range", () => {
       const stop = 10;
 
       const expected = start;
-      const actual = range(start, stop).first();
+      const actual = range(start, stop).start;
 
       expect(actual).toEqual(expected);
     });
   });
 
-  describe(".last()", () => {
-    it("is a function", () => {
-      expect(typeof range(0, 10).last).toBe("function");
+  describe(".stop", () => {
+    it("is a getter", () => {
+      expect(typeof range(0, 10).stop).toBe("number");
     });
 
     it("returns the stop value of a range", () => {
@@ -51,15 +51,15 @@ describe("range", () => {
       const stop = 10;
 
       const expected = stop;
-      const actual = range(start, stop).last();
+      const actual = range(start, stop).stop;
 
       expect(actual).toEqual(expected);
     });
   });
 
-  describe(".step()", () => {
-    it("is a function", () => {
-      expect(typeof range(0, 10).step).toBe("function");
+  describe(".step", () => {
+    it("is a getter", () => {
+      expect(typeof range(0, 10).step).toBe("number");
     });
 
     it("returns the step value of a range", () => {
@@ -68,7 +68,7 @@ describe("range", () => {
       const step = 1;
 
       const expected = step;
-      const actual = range(start, stop, step).step();
+      const actual = range(start, stop, step).step;
 
       expect(actual).toEqual(expected);
     });
