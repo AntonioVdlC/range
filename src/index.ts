@@ -1,7 +1,4 @@
 class Range {
-  // TODO: add .forEach()?
-  // TODO: add .first, .last, .middle, ... ?
-
   _start: number;
   _stop: number;
   _step: number;
@@ -186,6 +183,38 @@ class Range {
         ? this.isInclusive || range.isInclusive
         : range.isInclusive
     );
+  }
+
+  /**
+   * Iterate over all elements of a range and apply the `fn` function
+   * @param fn Function to be applied with each element of the range
+   */
+  forEach(fn: Function) {
+    let next;
+    do {
+      next = this.next();
+      if (!next.done) {
+        fn(next.value);
+      }
+    } while (!next.done);
+  }
+
+  /**
+   * Iterate over all elements of a range and apply the `fn` function async
+   * @param fn Function to be applied with each element of the range async
+   */
+  async forEachAsync(fn: Function) {
+    const fns = [];
+
+    let next;
+    do {
+      next = this.next();
+      if (!next.done) {
+        fns.push(fn(next.value));
+      }
+    } while (!next.done);
+
+    await Promise.all(fns);
   }
 
   /**

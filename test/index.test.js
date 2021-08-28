@@ -284,6 +284,92 @@ describe("range", () => {
     });
   });
 
+  describe(".forEach()", () => {
+    it("is a function", () => {
+      expect(typeof range(0, 10).forEach).toBe("function");
+    });
+
+    it("iterates over a range", () => {
+      const start = 0;
+      const stop = 5;
+
+      const expected = [0, 1, 2, 3, 4];
+
+      const actual = [];
+      range(start, stop).forEach((i) => actual.push(i));
+
+      expect(actual).toEqual(expected);
+    });
+
+    it("iterates over a range (inclusive)", () => {
+      const start = 0;
+      const stop = 5;
+
+      const expected = [0, 1, 2, 3, 4, 5];
+
+      const actual = [];
+      range(start, stop, 1, true).forEach((i) => actual.push(i));
+
+      expect(actual).toEqual(expected);
+    });
+
+    it("iterates over a range (step = 2)", () => {
+      const start = 0;
+      const stop = 9;
+      const step = 2;
+
+      const expected = [0, 2, 4, 6, 8];
+
+      const actual = [];
+      range(start, stop, step).forEach((i) => actual.push(i));
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe(".forEachAsync()", () => {
+    it("is a function", () => {
+      expect(typeof range(0, 10).forEachAsync).toBe("function");
+    });
+
+    it("iterates over a range", async () => {
+      const start = 0;
+      const stop = 5;
+
+      const expected = [0, 1, 2, 3, 4];
+
+      const actual = [];
+      await range(start, stop).forEachAsync((i) => actual.push(i));
+
+      expect(actual).toEqual(expected);
+    });
+
+    it("iterates over a range (inclusive)", async () => {
+      const start = 0;
+      const stop = 5;
+
+      const expected = [0, 1, 2, 3, 4, 5];
+
+      const actual = [];
+      await range(start, stop, 1, true).forEachAsync((i) => actual.push(i));
+
+      expect(actual).toEqual(expected);
+    });
+
+    it("iterates over a range (step = 2)", async () => {
+      const start = 0;
+      const stop = 9;
+      const step = 2;
+
+      const expected = [0, 2, 4, 6, 8];
+
+      const actual = [];
+      await range(start, stop, step).forEachAsync((i) => actual.push(i));
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
   describe(".toString()", () => {
     it("is a function", () => {
       expect(typeof range(0, 10).toString).toBe("function");

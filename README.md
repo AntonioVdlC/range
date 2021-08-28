@@ -136,6 +136,34 @@ Adds ranges together (only if step values are equal):
 range(0, 5).add(range(1, 10)); // range(0, 10)
 ```
 
+#### .forEach(fn)
+
+Iterate over a range and apply `fn` function to every element of the range:
+```js
+range(0, 10).forEach(i => console.log(i))
+// 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
+
+range(0, 10, 1, true).forEach(i => console.log(i))
+// 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+
+range(0, 10, 2).forEach(i => console.log(i))
+// 0, 2, 4, 6, 8
+```
+
+#### .forEachAsync(fn)
+
+Iterate over a range and apply `fn` function to every element of the range asynchronously:
+```js
+await range(0, 10).forEachAsync(i => console.log(i))
+// 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
+
+await range(0, 10, 1, true).forEachAsync(i => console.log(i))
+// 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+
+await range(0, 10, 2).forEachAsync(i => console.log(i))
+// 0, 2, 4, 6, 8
+```
+
 ### Iteration protocols
 
 Ranges implement both the iterable and the iterator protocols. This allows iteration over ranges as follow:
