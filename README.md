@@ -35,8 +35,9 @@ To create a range:
 const start = 0;
 const stop = 10;
 const step = 2; // Defaults to `1` if not passed
+const inclusive = true; // Defaults to `false` if not passed
 
-const r = range(start, stop, step);
+const r = range(start, stop, step, inclusive);
 ```
 
 ### Getters
@@ -64,6 +65,13 @@ Returns the step value of a range:
 range(0, 10).step; // 1 (by default)
 ```
 
+#### .isInclusive
+
+Returns `true` if the range is inclusive of its last value:
+```js
+range(0, 10).isInclusive; // false (by default)
+```
+
 ### Methods
 
 You can use the following methods on ranges:
@@ -74,6 +82,7 @@ Returns a string representation of a range:
 ```js
 range(0, 10).toString(); // 0..10
 range(0, 10, 2).toString(); // 0..10{2}
+range(0, 10, 2, true).toString(); // 0..=10{2}
 ```
 
 #### .toArray()
@@ -82,6 +91,7 @@ Returns an array representation of a range:
 ```js
 range(0, 10).toArray(); // [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 range(0, 10, 2).toArray(); // [0, 2, 4, 6, 8]
+range(0, 10, 1, true).toArray(); // [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 ```
 
 > You can also use the follow syntax as `ranges` are iterable:
@@ -93,6 +103,7 @@ Checks if 2 ranges are equal (same start, stop, and step):
 ```js
 range(0, 10).equal(range(0, 10)); // true
 range(0, 10, 2).equal(range(0, 10)); // false
+range(0, 10, 2, true).equal(range(0, 10, 2, false)); // false
 ```
 
 #### .includes(range)
@@ -119,6 +130,11 @@ for (let i of range(0, 10)) {
   console.log(i);
 }
 // 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
+
+for (let i of range(0, 10, 1, true)) {
+  console.log(i);
+}
+// 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
 
 for (let i of range(0, 10, 2)) {
   console.log(i);

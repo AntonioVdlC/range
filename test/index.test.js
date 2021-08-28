@@ -74,6 +74,24 @@ describe("range", () => {
     });
   });
 
+  describe(".isInclusive", () => {
+    it("is a getter", () => {
+      expect(typeof range(0, 10).isInclusive).toBe("boolean");
+    });
+
+    it("returns the step value of a range", () => {
+      const start = 0;
+      const stop = 10;
+      const step = 1;
+      const inclusive = true;
+
+      const expected = inclusive;
+      const actual = range(start, stop, step, inclusive).isInclusive;
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
   describe(".next()", () => {
     it("is a function", () => {
       expect(typeof range(0, 10).next).toBe("function");
@@ -105,6 +123,21 @@ describe("range", () => {
       expect(r.next()).toEqual({ done: false, value: start + 4 });
       expect(r.next()).toEqual({ done: false, value: start + 6 });
       expect(r.next()).toEqual({ done: false, value: start + 8 });
+      expect(r.next()).toEqual({ done: true, value: undefined });
+    });
+
+    it("iterates over a range (inclusive", () => {
+      const start = 0;
+      const stop = 5;
+
+      const r = range(start, stop, 1, true);
+
+      expect(r.next()).toEqual({ done: false, value: start });
+      expect(r.next()).toEqual({ done: false, value: start + 1 });
+      expect(r.next()).toEqual({ done: false, value: start + 2 });
+      expect(r.next()).toEqual({ done: false, value: start + 3 });
+      expect(r.next()).toEqual({ done: false, value: start + 4 });
+      expect(r.next()).toEqual({ done: false, value: start + 5 });
       expect(r.next()).toEqual({ done: true, value: undefined });
     });
 
@@ -149,6 +182,20 @@ describe("range", () => {
 
       const actual = [];
       for (let i of range(start, stop)) {
+        actual.push(i);
+      }
+
+      expect(actual).toEqual(expected);
+    });
+
+    it("iterates over a range (inclusive)", () => {
+      const start = 0;
+      const stop = 5;
+
+      const expected = [0, 1, 2, 3, 4, 5];
+
+      const actual = [];
+      for (let i of range(start, stop, 1, true)) {
         actual.push(i);
       }
 
@@ -210,6 +257,16 @@ describe("range", () => {
       expect(actual).toEqual(expected);
     });
 
+    it("returns a string representation of a range (inclusive)", () => {
+      const start = 0;
+      const stop = 10;
+
+      const expected = "0..=10";
+      const actual = range(start, stop, 1, true).toString();
+
+      expect(actual).toEqual(expected);
+    });
+
     it("returns a string representation of a range (step != 1)", () => {
       const start = 0;
       const stop = 10;
@@ -217,6 +274,17 @@ describe("range", () => {
 
       const expected = "0..10{2}";
       const actual = range(start, stop, step).toString();
+
+      expect(actual).toEqual(expected);
+    });
+
+    it("returns a string representation of a range (step != 1, inclusive)", () => {
+      const start = 0;
+      const stop = 10;
+      const step = 2;
+
+      const expected = "0..=10{2}";
+      const actual = range(start, stop, step, true).toString();
 
       expect(actual).toEqual(expected);
     });
@@ -234,6 +302,17 @@ describe("range", () => {
 
       const expected = [0, 2, 4, 6, 8];
       const actual = range(start, stop, step).toArray();
+
+      expect(actual).toEqual(expected);
+    });
+
+    it("returns an array from a range (inclusive)", () => {
+      const start = 0;
+      const stop = 10;
+      const step = 2;
+
+      const expected = [0, 2, 4, 6, 8, 10];
+      const actual = range(start, stop, step, true).toArray();
 
       expect(actual).toEqual(expected);
     });
@@ -282,6 +361,13 @@ describe("range", () => {
       expect(actual).toEqual(expected);
     });
 
+    it("returns `true` if given range is included (range inclusive)", () => {
+      const expected = true;
+      const actual = range(0, 10).includes(range(0, 9, 1, true));
+
+      expect(actual).toEqual(expected);
+    });
+
     it("returns `true` if given range is equal", () => {
       const expected = true;
       const actual = range(0, 10).includes(range(0, 10));
@@ -292,6 +378,13 @@ describe("range", () => {
     it("returns `false` if given range is not included", () => {
       const expected = false;
       const actual = range(0, 5).includes(range(0, 10));
+
+      expect(actual).toEqual(expected);
+    });
+
+    it("returns `false` if given range is not included (range inclusive", () => {
+      const expected = false;
+      const actual = range(0, 10).includes(range(0, 10, 1, true));
 
       expect(actual).toEqual(expected);
     });
@@ -306,9 +399,30 @@ describe("range", () => {
       expect(() => range(0, 5, 2).add(range(1, 10))).toThrow();
     });
 
-    it("adds ranges correctly", () => {
+    it("adds ranges correctly (this.stop < range.stop)", () => {
       const expected = range(0, 10);
       const actual = range(0, 5).add(range(1, 10));
+
+      expect(actual.equal(expected)).toBeTrue();
+    });
+
+    it("adds ranges correctly (this.stop > range.stop)", () => {
+      const expected = range(0, 10);
+      const actual = range(0, 10).add(range(1, 5));
+
+      expect(actual.equal(expected)).toBeTrue();
+    });
+
+    it("adds ranges correctly (this.stop === range.stop)", () => {
+      const expected = range(0, 10);
+      const actual = range(0, 10).add(range(1, 10));
+
+      expect(actual.equal(expected)).toBeTrue();
+    });
+
+    it("adds ranges correctly (equal, inclusive)", () => {
+      const expected = range(0, 10, 1, true);
+      const actual = range(0, 10, 1, true).add(range(1, 10));
 
       expect(actual.equal(expected)).toBeTrue();
     });
