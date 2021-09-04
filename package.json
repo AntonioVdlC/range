@@ -31,12 +31,12 @@
   "author": "Antonio Villagra De La Cruz",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AntonioVdlC/node-library-starter.git"
+    "url": "git+https://github.com/AntonioVdlC/range.git"
   },
   "bugs": {
-    "url": "https://github.com/AntonioVdlC/node-library-starter/issues"
+    "url": "https://github.com/AntonioVdlC/range/issues"
   },
-  "homepage": "https://github.com/AntonioVdlC/node-library-starter#readme",
+  "homepage": "https://github.com/AntonioVdlC/range#readme",
   "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.14.6",
