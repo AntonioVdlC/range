@@ -2,9 +2,7 @@
 
 // const range = require("../dist/index.cjs");
 
-const range = require("../pkg/range")
-
-console.log(range.main())
+const { range } = require("../pkg/range")
 
 describe("range", () => {
   it("is a function", () => {
