@@ -2,13 +2,17 @@
   "name": "@antoniovdlc/range",
   "version": "1.2.1",
   "description": "Implement ranges in JavaScript",
-  "main": "dist/index.cjs.js",
-  "module": "dist/index.esm.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/esm/index.d.ts",
   "files": [
-    "dist/index.cjs.js",
-    "dist/index.esm.js",
-    "dist/index.d.ts"
+    "dist/cjs/index_bg.wasm",
+    "dist/cjs/index.js",
+    "dist/cjs/index.d.ts",
+    "dist/esm/index_bg.wasm",
+    "dist/esm/index.js",
+    "dist/esm/index_bg.js",
+    "dist/esm/index.d.ts"
   ],
   "scripts": {
     "prepare": "husky install",
@@ -19,10 +23,9 @@
     "bench": "SIZE=100 node ./bin/benchmark.js; SIZE=1000 node ./bin/benchmark.js; SIZE=10000 node ./bin/benchmark.js; SIZE=100000 node ./bin/benchmark.js; SIZE=1000000 node ./bin/benchmark.js;",
     "pre-commit": "lint-staged",
     "prebuild": "rimraf dist && mkdir dist",
-    "build": "npm run build:types && npm run build:lib",
-    "build:types": "tsc --declaration --emitDeclarationOnly --outDir dist",
-    "build:lib": "rollup -c",
-    "build:wasm": "wasm-pack build --target nodejs",
+    "build": "npm run build:cjs && npm run build:esm",
+    "build:cjs": "wasm-pack build --target nodejs --out-dir dist/cjs --out-name index",
+    "build:esm": "wasm-pack build --target bundler --out-dir dist/esm --out-name index",
     "postversion": "git push && git push --tags"
   },
   "keywords": [

@@ -1,8 +1,4 @@
-// import range from "../src/index.ts";
-
-// const range = require("../dist/index.cjs");
-
-const { range } = require("../pkg/range")
+const { range } = require("../dist/cjs/index")
 
 describe("range", () => {
   it("is a function", () => {
