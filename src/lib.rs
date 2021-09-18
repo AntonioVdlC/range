@@ -1,3 +1,4 @@
+use js_sys::Error;
 use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen]
@@ -59,9 +60,31 @@ impl Range {
             self._stop - 1
         }
     }
+
+    #[wasm_bindgen(js_name = toString)]
+    pub fn to_string(&self) -> String {
+        if self.step() == 1 {
+            if self.is_inclusive() {
+                return format!("{}..={}", self._start, self._stop);
+            }
+            return format!("{}..{}", self.start(), self.stop());
+        } else {
+            if self.is_inclusive() {
+                return format!("{}..={}{{{}}}", self.start(), self.stop(), self.step());
+            }
+            return format!("{}..{}{{{}}}", self.start(), self.stop(), self.step());
+        }
+    }
 }
 
 #[wasm_bindgen]
-pub fn range(start: i32, stop: i32, step: u32, inclusive: bool) -> Range {
-    return Range::new(start, stop, step, inclusive);
+pub fn range(start: i32, stop: i32, step: u32, inclusive: bool) -> Result<Range, JsValue> {
+    if start > stop {
+        return Err(Error::new(
+            (format!("Cannot create a range from {} to {}", start, stop)).as_str(),
+        )
+        .into());
+    }
+
+    return Ok(Range::new(start, stop, step, inclusive));
 }
