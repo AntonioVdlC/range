@@ -19,6 +19,7 @@
     "type:check": "tsc --noEmit",
     "format": "prettier --write --ignore-unknown {src,test}/*",
     "format:check": "prettier --check {src,test}/*",
+    "pretest": "npm run build",
     "test": "jest",
     "bench": "SIZE=100 node ./bin/benchmark.js; SIZE=1000 node ./bin/benchmark.js; SIZE=10000 node ./bin/benchmark.js; SIZE=100000 node ./bin/benchmark.js; SIZE=1000000 node ./bin/benchmark.js;",
     "pre-commit": "lint-staged",

@@ -1,11 +1,18 @@
-use js_sys::Error;
+use js_sys::{Error};
+use serde::{Deserialize, Serialize};
 use wasm_bindgen::prelude::*;
+
+#[derive(Serialize, Deserialize)]
+pub struct JsIteratorResult {
+    pub value: Option<i32>,
+    pub done: bool,
+}
 
 #[wasm_bindgen]
 pub struct Range {
     _start: i32,
     _stop: i32,
-    _step: u32,
+    _step: i32,
     _inclusive: bool,
 
     // Counter used for iteration, so that we can iterate multiple times over
@@ -16,7 +23,7 @@ pub struct Range {
 #[wasm_bindgen]
 impl Range {
     #[wasm_bindgen(constructor)]
-    pub fn new(start: i32, stop: i32, step: u32, inclusive: bool) -> Range {
+    pub fn new(start: i32, stop: i32, step: i32, inclusive: bool) -> Range {
         Range {
             _start: start,
             _stop: stop,
@@ -25,7 +32,10 @@ impl Range {
             i: start,
         }
     }
+}
 
+#[wasm_bindgen]
+impl Range {
     #[wasm_bindgen(getter)]
     pub fn start(&self) -> i32 {
         self._start
@@ -37,7 +47,7 @@ impl Range {
     }
 
     #[wasm_bindgen(getter)]
-    pub fn step(&self) -> u32 {
+    pub fn step(&self) -> i32 {
         self._step
     }
 
@@ -60,7 +70,10 @@ impl Range {
             self._stop - 1
         }
     }
+}
 
+#[wasm_bindgen]
+impl Range {
     #[wasm_bindgen(js_name = toString)]
     pub fn to_string(&self) -> String {
         if self.step() == 1 {
@@ -78,7 +91,32 @@ impl Range {
 }
 
 #[wasm_bindgen]
-pub fn range(start: i32, stop: i32, step: u32, inclusive: bool) -> Result<Range, JsValue> {
+impl Range {
+    #[wasm_bindgen]
+    pub fn next(&mut self) -> JsValue {
+        if self.is_inclusive() && self.i <= self.stop() || self.i < self.stop() {
+            let value = self.i;
+            self.i = self.i + self.step();
+
+            return JsValue::from_serde(&JsIteratorResult {
+                value: Some(value),
+                done: false,
+            })
+            .unwrap();
+        }
+
+        self.i = self.start();
+
+        return JsValue::from_serde(&JsIteratorResult {
+            value: None,
+            done: true,
+        })
+        .unwrap();
+    }
+}
+
+#[wasm_bindgen]
+pub fn range(start: i32, stop: i32, step: i32, inclusive: bool) -> Result<Range, JsValue> {
     if start > stop {
         return Err(Error::new(
             (format!("Cannot create a range from {} to {}", start, stop)).as_str(),
