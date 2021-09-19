@@ -2,12 +2,16 @@
 
 const { performance, PerformanceObserver } = require("perf_hooks");
 
-const range = require("../dist/index.cjs");
+const { range } = require("../dist/cjs/index.js");
 
 const testBenchmark = performance.timerify(function testBenchmark() {
   let sum = 0;
-  for (let i of range(0, process.env.SIZE)) {
+  let i = 0;
+
+  const r = range(0, process.env.SIZE);
+  while (!r.next().done) {
     sum += i;
+    i++;
   }
   return sum;
 });
@@ -37,5 +41,7 @@ range(0, 1000000): 7.5012646638154985s
 */
 
 /* Rust / WASM
-
+range(0, 100): 0.018000024318695067s
+range(0, 1000): 0.09116293668746948s
+range(0, 10000): 2.4152168154716493s
 */

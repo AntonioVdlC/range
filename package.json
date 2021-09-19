@@ -25,6 +25,7 @@
     "pre-commit": "lint-staged",
     "prebuild": "rimraf dist && mkdir dist",
     "build": "npm run build:cjs && npm run build:esm",
+    "build:ts": "rollup -c",
     "build:cjs": "wasm-pack build --target nodejs --out-dir dist/cjs --out-name index",
     "build:esm": "wasm-pack build --target bundler --out-dir dist/esm --out-name index",
     "postversion": "git push && git push --tags"

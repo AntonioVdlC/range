@@ -1,8 +1,7 @@
-use js_sys::{Error};
-use serde::{Deserialize, Serialize};
+use js_sys::Error;
 use wasm_bindgen::prelude::*;
 
-#[derive(Serialize, Deserialize)]
+#[wasm_bindgen]
 pub struct JsIteratorResult {
     pub value: Option<i32>,
     pub done: bool,
@@ -93,25 +92,23 @@ impl Range {
 #[wasm_bindgen]
 impl Range {
     #[wasm_bindgen]
-    pub fn next(&mut self) -> JsValue {
+    pub fn next(&mut self) -> JsIteratorResult {
         if self.is_inclusive() && self.i <= self.stop() || self.i < self.stop() {
             let value = self.i;
             self.i = self.i + self.step();
 
-            return JsValue::from_serde(&JsIteratorResult {
+            return JsIteratorResult {
                 value: Some(value),
                 done: false,
-            })
-            .unwrap();
+            };
         }
 
         self.i = self.start();
 
-        return JsValue::from_serde(&JsIteratorResult {
+        return JsIteratorResult {
             value: None,
             done: true,
-        })
-        .unwrap();
+        };
     }
 }
 

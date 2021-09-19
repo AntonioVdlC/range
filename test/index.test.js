@@ -144,13 +144,27 @@ describe("range", () => {
       const stop = 5;
 
       const r = range(start, stop);
+      let next;
 
-      expect(r.next()).toEqual({ done: false, value: start });
-      expect(r.next()).toEqual({ done: false, value: start + 1 });
-      expect(r.next()).toEqual({ done: false, value: start + 2 });
-      expect(r.next()).toEqual({ done: false, value: start + 3 });
-      expect(r.next()).toEqual({ done: false, value: start + 4 });
-      expect(r.next()).toEqual({ done: true, value: null });
+      next = r.next();
+      expect(next.done).toEqual(false);
+      expect(next.value).toEqual(start);
+
+      next = r.next();
+      expect(next.done).toEqual(false);
+      expect(next.value).toEqual(start + 1);
+      next = r.next();
+      expect(next.done).toEqual(false);
+      expect(next.value).toEqual(start + 2);
+      next = r.next();
+      expect(next.done).toEqual(false);
+      expect(next.value).toEqual(start + 3);
+      next = r.next();
+      expect(next.done).toEqual(false);
+      expect(next.value).toEqual(start + 4);
+
+      next = r.next();
+      expect(next.done).toEqual(true);
     });
 
     it("iterates over a range (step = 2)", () => {
@@ -168,7 +182,7 @@ describe("range", () => {
       expect(r.next()).toEqual({ done: true, value: null });
     });
 
-    it("iterates over a range (inclusive", () => {
+    it("iterates over a range (inclusive)", () => {
       const start = 0;
       const stop = 5;
 
