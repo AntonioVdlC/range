@@ -40,6 +40,19 @@ const inclusive = true; // Defaults to `false` if not passed
 const r = range(start, stop, step, inclusive);
 ```
 
+You can also pass an options object for convenience:
+```js
+const start = 0;
+const stop = 10;
+const opts = {
+  step: 2, // Defaults to `1` if not passed
+  inclusive: true, // Defaults to `false` if not passed
+};
+
+const r = range(start, stop, opts);
+```
+
+
 ### Getters
 
 You can use the following getters on ranges:

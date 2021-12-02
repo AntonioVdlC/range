@@ -1,3 +1,8 @@
+type RangeOpts = {
+  step?: number;
+  inclusive?: boolean;
+};
+
 class Range {
   _start: number;
   _stop: number;
@@ -11,8 +16,8 @@ class Range {
   constructor(
     start: number,
     stop: number,
-    step: number = 1,
-    inclusive: boolean = false
+    stepOrOpts?: number | RangeOpts,
+    inclusive?: boolean
   ) {
     if (start > stop) {
       // TODO: allow reverse ranges?
@@ -25,14 +30,24 @@ class Range {
     if (isNaN(Number(stop))) {
       throw new Error(`${stop} is not a Number`);
     }
-    if (isNaN(Number(step))) {
-      throw new Error(`${step} is not a Number`);
+
+    let step: number = 1;
+    if (stepOrOpts) {
+      if (typeof stepOrOpts === "number") {
+        step = stepOrOpts;
+      } else {
+        step = stepOrOpts.step || 1;
+
+        if (!inclusive) {
+          inclusive = stepOrOpts.inclusive;
+        }
+      }
     }
 
     this._start = Number(start);
     this._stop = Number(stop);
     this._step = Number(step);
-    this._inclusive = Boolean(inclusive);
+    this._inclusive = Boolean(inclusive || false);
 
     // Initialise a counter for iteration
     this.i = Number(start);
@@ -247,17 +262,18 @@ class Range {
  * @param start The value at which the range starts (inclusive)
  * @param stop The value at which the range stops
  * (inclusive depending on value of `inclusive` parameter)
- * @param step The steps between each iteration within the range
+ * @param stepOrOpts The steps between each iteration within the range
+ * OR an options object `{ step?: number, inclusive?: boolean }`
  * @param inclusive Inclusive range, where stop value is returned at last
  * @returns Range object
  */
 function range(
   start: number,
   stop: number,
-  step: number = 1,
-  inclusive: boolean = false
+  stepOrOpts?: number | RangeOpts,
+  inclusive?: boolean
 ): Range {
-  return new Range(start, stop, step, inclusive);
+  return new Range(start, stop, stepOrOpts, inclusive);
 }
 
 export default range;

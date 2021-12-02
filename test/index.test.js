@@ -21,10 +21,6 @@ describe("range", () => {
     expect(() => range(3, "hello")).toThrow();
   });
 
-  it("throws if not passed a valid range (step is not a number)", () => {
-    expect(() => range(0, 3, "hello")).toThrow();
-  });
-
   describe(".start", () => {
     it("is a getter", () => {
       expect(typeof range(0, 10).start).toBe("number");
@@ -62,13 +58,34 @@ describe("range", () => {
       expect(typeof range(0, 10).step).toBe("number");
     });
 
+    it("defaults to a value of '1'", () => {
+      const start = 0;
+      const stop = 10;
+
+      const expected = 1;
+      const actual = range(start, stop).step;
+
+      expect(actual).toEqual(expected);
+    });
+
     it("returns the step value of a range", () => {
       const start = 0;
       const stop = 10;
-      const step = 1;
+      const step = 3;
 
       const expected = step;
       const actual = range(start, stop, step).step;
+
+      expect(actual).toEqual(expected);
+    });
+
+    it("returns the step value of a range (via opts)", () => {
+      const start = 0;
+      const stop = 10;
+      const opts = { step: 3 };
+
+      const expected = opts.step;
+      const actual = range(start, stop, opts).step;
 
       expect(actual).toEqual(expected);
     });
@@ -79,7 +96,7 @@ describe("range", () => {
       expect(typeof range(0, 10).isInclusive).toBe("boolean");
     });
 
-    it("returns the step value of a range", () => {
+    it("returns the inclusive value of a range", () => {
       const start = 0;
       const stop = 10;
       const step = 1;
@@ -87,6 +104,17 @@ describe("range", () => {
 
       const expected = inclusive;
       const actual = range(start, stop, step, inclusive).isInclusive;
+
+      expect(actual).toEqual(expected);
+    });
+
+    it("returns the inclusive value of a range (via opts)", () => {
+      const start = 0;
+      const stop = 10;
+      const opts = { inclusive: true };
+
+      const expected = opts.inclusive;
+      const actual = range(start, stop, opts).isInclusive;
 
       expect(actual).toEqual(expected);
     });
