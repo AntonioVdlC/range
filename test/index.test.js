@@ -398,6 +398,86 @@ describe("range", () => {
     });
   });
 
+  describe(".map()", () => {
+    it("is a function", () => {
+      expect(typeof range(0, 10).map).toBe("function");
+    });
+
+    it("maps over a range", () => {
+      const start = 0;
+      const stop = 5;
+
+      const expected = [0, 1, 4, 9, 16];
+      const actual = range(start, stop).map((i) => i ** 2);
+
+      expect(actual).toEqual(expected);
+    });
+
+    it("maps over a range (inclusive)", () => {
+      const start = 0;
+      const stop = 5;
+
+      const expected = [0, 1, 4, 9, 16, 25];
+      const actual = range(start, stop, 1, true).map((i) => i ** 2);
+
+      expect(actual).toEqual(expected);
+    });
+
+    it("maps over a range (step = 2)", () => {
+      const start = 0;
+      const stop = 9;
+      const step = 2;
+
+      const expected = [0, 4, 16, 36, 64];
+      const actual = range(start, stop, step).map((i) => i ** 2);
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe(".mapAsync()", () => {
+    it("is a function", () => {
+      expect(typeof range(0, 10).mapAsync).toBe("function");
+    });
+
+    it("maps over a range", async () => {
+      const start = 0;
+      const stop = 5;
+
+      const expected = [0, 1, 4, 9, 16];
+      const actual = await range(start, stop).mapAsync(
+        async (i) => new Promise((resolve) => resolve(i ** 2))
+      );
+
+      expect(actual).toEqual(expected);
+    });
+
+    it("maps over a range (inclusive)", async () => {
+      const start = 0;
+      const stop = 5;
+
+      const expected = [0, 1, 4, 9, 16, 25];
+      const actual = await range(start, stop, 1, true).mapAsync(
+        async (i) => new Promise((resolve) => resolve(i ** 2))
+      );
+
+      expect(actual).toEqual(expected);
+    });
+
+    it("maps over a range (step = 2)", async () => {
+      const start = 0;
+      const stop = 9;
+      const step = 2;
+
+      const expected = [0, 4, 16, 36, 64];
+      const actual = await range(start, stop, step).mapAsync(
+        async (i) => new Promise((resolve) => resolve(i ** 2))
+      );
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
   describe(".toString()", () => {
     it("is a function", () => {
       expect(typeof range(0, 10).toString).toBe("function");

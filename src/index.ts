@@ -233,6 +233,44 @@ class Range {
   }
 
   /**
+   * Iterate over all elements and return a mapped array by applying `fn` function
+   * @param fn Function to be applied to each element of the range
+   * @returns Array with the result of the applied function
+   */
+  map(fn: Function): Array<any> {
+    const results = [];
+
+    let next;
+    do {
+      next = this.next();
+      if (!next.done) {
+        results.push(fn(next.value));
+      }
+    } while (!next.done);
+
+    return results;
+  }
+
+  /**
+   * Iterate over all elements and return a mapped array by applying `fn` async function
+   * @param fn Function to be applied to each element of the range async
+   * @returns Promised Array with the result of the applied async function
+   */
+  async mapAsync(fn: Function): Promise<Array<any>> {
+    const results = [];
+
+    let next;
+    do {
+      next = this.next();
+      if (!next.done) {
+        results.push(await fn(next.value));
+      }
+    } while (!next.done);
+
+    return results;
+  }
+
+  /**
    * Implement iterator protocol
    */
   next() {
