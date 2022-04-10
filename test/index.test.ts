@@ -1,4 +1,6 @@
-import range from "../src/index.ts";
+import { describe, it, expect } from "vitest";
+
+import range from "../src";
 
 describe("range", () => {
   it("is a function", () => {
@@ -14,10 +16,12 @@ describe("range", () => {
   });
 
   it("throws if not passed a valid range (start is not a number)", () => {
+    // @ts-expect-error
     expect(() => range("hello", 3)).toThrow();
   });
 
   it("throws if not passed a valid range (stop is not a number)", () => {
+    // @ts-expect-error
     expect(() => range(3, "hello")).toThrow();
   });
 
@@ -323,8 +327,8 @@ describe("range", () => {
 
       const expected = [0, 1, 2, 3, 4];
 
-      const actual = [];
-      range(start, stop).forEach((i) => actual.push(i));
+      const actual: number[] = [];
+      range(start, stop).forEach((i: number) => actual.push(i));
 
       expect(actual).toEqual(expected);
     });
@@ -335,8 +339,8 @@ describe("range", () => {
 
       const expected = [0, 1, 2, 3, 4, 5];
 
-      const actual = [];
-      range(start, stop, 1, true).forEach((i) => actual.push(i));
+      const actual: number[] = [];
+      range(start, stop, 1, true).forEach((i: number) => actual.push(i));
 
       expect(actual).toEqual(expected);
     });
@@ -348,8 +352,8 @@ describe("range", () => {
 
       const expected = [0, 2, 4, 6, 8];
 
-      const actual = [];
-      range(start, stop, step).forEach((i) => actual.push(i));
+      const actual: number[] = [];
+      range(start, stop, step).forEach((i: number) => actual.push(i));
 
       expect(actual).toEqual(expected);
     });
@@ -366,8 +370,8 @@ describe("range", () => {
 
       const expected = [0, 1, 2, 3, 4];
 
-      const actual = [];
-      await range(start, stop).forEachAsync((i) => actual.push(i));
+      const actual: number[] = [];
+      await range(start, stop).forEachAsync((i: number) => actual.push(i));
 
       expect(actual).toEqual(expected);
     });
@@ -378,8 +382,10 @@ describe("range", () => {
 
       const expected = [0, 1, 2, 3, 4, 5];
 
-      const actual = [];
-      await range(start, stop, 1, true).forEachAsync((i) => actual.push(i));
+      const actual: number[] = [];
+      await range(start, stop, 1, true).forEachAsync((i: number) =>
+        actual.push(i)
+      );
 
       expect(actual).toEqual(expected);
     });
@@ -391,8 +397,10 @@ describe("range", () => {
 
       const expected = [0, 2, 4, 6, 8];
 
-      const actual = [];
-      await range(start, stop, step).forEachAsync((i) => actual.push(i));
+      const actual: number[] = [];
+      await range(start, stop, step).forEachAsync((i: number) =>
+        actual.push(i)
+      );
 
       expect(actual).toEqual(expected);
     });
@@ -408,7 +416,7 @@ describe("range", () => {
       const stop = 5;
 
       const expected = [0, 1, 4, 9, 16];
-      const actual = range(start, stop).map((i) => i ** 2);
+      const actual = range(start, stop).map((i: number) => i ** 2);
 
       expect(actual).toEqual(expected);
     });
@@ -418,7 +426,7 @@ describe("range", () => {
       const stop = 5;
 
       const expected = [0, 1, 4, 9, 16, 25];
-      const actual = range(start, stop, 1, true).map((i) => i ** 2);
+      const actual = range(start, stop, 1, true).map((i: number) => i ** 2);
 
       expect(actual).toEqual(expected);
     });
@@ -429,7 +437,7 @@ describe("range", () => {
       const step = 2;
 
       const expected = [0, 4, 16, 36, 64];
-      const actual = range(start, stop, step).map((i) => i ** 2);
+      const actual = range(start, stop, step).map((i: number) => i ** 2);
 
       expect(actual).toEqual(expected);
     });
@@ -446,7 +454,7 @@ describe("range", () => {
 
       const expected = [0, 1, 4, 9, 16];
       const actual = await range(start, stop).mapAsync(
-        async (i) => new Promise((resolve) => resolve(i ** 2))
+        async (i: number) => new Promise((resolve) => resolve(i ** 2))
       );
 
       expect(actual).toEqual(expected);
@@ -458,7 +466,7 @@ describe("range", () => {
 
       const expected = [0, 1, 4, 9, 16, 25];
       const actual = await range(start, stop, 1, true).mapAsync(
-        async (i) => new Promise((resolve) => resolve(i ** 2))
+        async (i: number) => new Promise((resolve) => resolve(i ** 2))
       );
 
       expect(actual).toEqual(expected);
@@ -471,7 +479,7 @@ describe("range", () => {
 
       const expected = [0, 4, 16, 36, 64];
       const actual = await range(start, stop, step).mapAsync(
-        async (i) => new Promise((resolve) => resolve(i ** 2))
+        async (i: number) => new Promise((resolve) => resolve(i ** 2))
       );
 
       expect(actual).toEqual(expected);
@@ -639,28 +647,28 @@ describe("range", () => {
       const expected = range(0, 10);
       const actual = range(0, 5).add(range(1, 10));
 
-      expect(actual.equal(expected)).toBeTrue();
+      expect(actual.equal(expected)).toBeTruthy();
     });
 
     it("adds ranges correctly (this.stop > range.stop)", () => {
       const expected = range(0, 10);
       const actual = range(0, 10).add(range(1, 5));
 
-      expect(actual.equal(expected)).toBeTrue();
+      expect(actual.equal(expected)).toBeTruthy();
     });
 
     it("adds ranges correctly (this.stop === range.stop)", () => {
       const expected = range(0, 10);
       const actual = range(0, 10).add(range(1, 10));
 
-      expect(actual.equal(expected)).toBeTrue();
+      expect(actual.equal(expected)).toBeTruthy();
     });
 
     it("adds ranges correctly (equal, inclusive)", () => {
       const expected = range(0, 10, 1, true);
       const actual = range(0, 10, 1, true).add(range(1, 10));
 
-      expect(actual.equal(expected)).toBeTrue();
+      expect(actual.equal(expected)).toBeTruthy();
     });
   });
 });
