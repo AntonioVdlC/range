@@ -12,7 +12,7 @@
   ],
   "scripts": {
     "prepare": "husky install",
-    "type:check": "tsc src/*.ts --noEmit",
+    "type:check": "tsc src/*.ts --noEmit --target es5",
     "format": "prettier --write --ignore-unknown {src,test}/*",
     "format:check": "prettier --check {src,test}/*",
     "test": "vitest run --coverage",
